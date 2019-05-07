@@ -37,6 +37,7 @@ library(Rglpk)
 library(DEoptim)
 library(quantmod)
 library(downloader)
+library(quantstrat)  # another library
 
 
 osFixedDollar <- function(timestamp,orderqty, portfolio, symbol, ruletype, ...)
@@ -315,7 +316,7 @@ updateEndEq(account.st)
 ### Save returns as CTAreturns to remember below
 CTAreturns<- Return.calculate(end_eq, method="log")
 
-
+# for cta trader
 
 #' Now Load the symbols we want to use for our FF3
 ######## Choose Assets Here #########################
@@ -384,7 +385,7 @@ idx=intersect(as.Date(index(CTAreturns)),as.Date(index(ff3)))
 fit=lm(CTAreturns[as.Date(idx)]~ff3[as.Date(idx)][,1:3])  
 factorCoefs=rbind(factorCoefs,data.frame(Symbol="CTAc",Mkt=fit$coefficients[2],SMB=fit$coefficients[3],HML=fit$coefficients[4]))
 rets=cbind(rets,CTAreturns)
-colnames(rets)=c(colnames(rets[,-ncol(rets)]),"CTAc")
+colnames(rets)=c(colnames(rets[,-ncol(rets)]),"CTAc") #CTAc is our strategy result above
 
 
 ## Calculate beta's for the assets
